@@ -50,6 +50,47 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
 }
 .btn-ghost:hover { color: var(--white); border-color: var(--white); }
 
+/* ── PROMO BANNER ── */
+.promo-banner {
+  background: var(--red); color: var(--white);
+  text-align: center; padding: 9px 24px;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.5px;
+  display: none; cursor: pointer;
+}
+.promo-banner.visible { display: block; }
+
+/* ── OFFERS SECTION ── */
+.offers-section { padding: 18px 24px 0; }
+.offers-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.offers-title { font-family: var(--font-display); font-size: 24px; letter-spacing: 2px; }
+.offers-badge { background: var(--red); color: var(--white); font-size: 10px; font-weight: 700; padding: 3px 8px; letter-spacing: 1px; }
+.offers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-bottom: 8px; }
+
+.offer-card { background: var(--white); border: 2px solid var(--red); position: relative; overflow: hidden; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+.offer-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(200,16,46,0.18); }
+.offer-card-img { width: 100%; aspect-ratio: 1; background: var(--groove); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+.offer-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.offer-ribbon { position: absolute; top: 10px; right: 0; background: var(--red); color: var(--white); font-size: 10px; font-weight: 700; padding: 4px 10px; letter-spacing: 1px; z-index: 2; }
+.offer-card-body { padding: 12px 14px 14px; }
+.offer-artist { font-size: 10px; color: var(--red); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.offer-ttl { font-size: 13px; font-weight: 700; color: var(--gray-800); margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.offer-prices { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+.price-original { font-size: 13px; color: var(--gray-400); text-decoration: line-through; }
+.price-promo { font-size: 22px; font-weight: 700; color: var(--red); }
+.offer-countdown { font-size: 11px; color: var(--gray-600); margin-bottom: 12px; }
+.offer-countdown strong { font-family: monospace; color: var(--black); font-size: 12px; }
+.btn-offer-add { width: 100%; padding: 10px; background: var(--black); color: var(--white); border: none; cursor: pointer; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; font-family: var(--font-body); transition: background 0.12s; }
+.btn-offer-add:hover { background: var(--red); }
+.btn-offer-add.added { background: #25D366; }
+
+.offers-divider { border: none; border-top: 2px solid var(--gray-200); margin: 4px 24px 0; }
+
+/* ── CATALOG CARD promo state ── */
+.promo-tag { position: absolute; top: 8px; right: 0; background: var(--red); color: var(--white); font-size: 9px; font-weight: 700; padding: 3px 7px; letter-spacing: 0.5px; z-index: 2; }
+.card-price-wrap { display: flex; flex-direction: column; gap: 1px; }
+.card-price-orig { font-size: 10px; color: var(--gray-400); text-decoration: line-through; line-height: 1.2; }
+.card-price-disc { font-size: 15px; font-weight: 700; color: var(--red); }
+
 .filters {
   background: var(--white); padding: 12px 24px;
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
@@ -110,6 +151,8 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
 .qty-btn:hover { background: var(--gray-100); }
 .qty-num { font-size: 13px; font-weight: 600; min-width: 20px; text-align: center; }
 .item-price { font-size: 12px; font-weight: 700; margin-left: auto; white-space: nowrap; }
+.cart-item-promo-tag { font-size: 10px; color: var(--red); font-weight: 700; }
+.cart-item-orig-price { font-size: 10px; color: var(--gray-400); text-decoration: line-through; }
 .btn-rm { background: none; border: none; cursor: pointer; color: var(--gray-400); font-size: 15px; padding: 2px 4px; flex-shrink: 0; }
 .btn-rm:hover { color: var(--red); }
 .cart-foot { padding: 16px 20px; border-top: 2px solid var(--gray-200); flex-shrink: 0; }
@@ -133,7 +176,9 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
 .modal-meta { background: var(--gray-100); padding: 10px 12px; }
 .meta-lbl { font-size: 10px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
 .meta-val { font-size: 14px; font-weight: 600; }
-.modal-prc { font-size: 30px; font-weight: 700; margin-bottom: 18px; }
+.modal-prc { font-size: 30px; font-weight: 700; margin-bottom: 6px; }
+.modal-prc-orig { font-size: 14px; color: var(--gray-400); text-decoration: line-through; margin-bottom: 4px; display: none; }
+.modal-prc-label { font-size: 11px; color: var(--red); font-weight: 700; margin-bottom: 12px; display: none; }
 .btn-modal-add { width: 100%; padding: 14px; background: var(--red); color: var(--white); border: none; cursor: pointer; font-size: 15px; font-weight: 700; letter-spacing: 0.5px; transition: background 0.15s; font-family: var(--font-body); }
 .btn-modal-add:hover { background: var(--red-dark); }
 .btn-modal-add.added { background: #25D366; }
@@ -145,7 +190,7 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
 .fg { margin-bottom: 16px; }
 .fg label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-600); margin-bottom: 6px; }
 .fg input, .fg select { width: 100%; padding: 10px 12px; border: 1px solid var(--gray-200); font-size: 14px; outline: none; font-family: var(--font-body); }
-.fg input:focus { border-color: var(--red); }
+.fg input:focus, .fg select:focus { border-color: var(--red); }
 .btn-prim { background: var(--red); color: var(--white); border: none; padding: 11px 22px; font-size: 13px; font-weight: 700; cursor: pointer; letter-spacing: 0.5px; font-family: var(--font-body); }
 .btn-prim:hover { background: var(--red-dark); }
 .admin-wrap { max-width: 1100px; margin: 0 auto; }
@@ -183,6 +228,28 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
 .tbl-wrap { overflow-x: auto; }
 .adm-pag { display: flex; gap: 8px; padding: 14px 0; align-items: center; flex-wrap: wrap; }
 
+/* ── ADMIN PROMOS ── */
+.promo-form { background: var(--white); border: 1px solid var(--gray-200); padding: 18px; margin-bottom: 20px; }
+.promo-form h3 { font-size: 12px; font-weight: 700; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-600); }
+.promo-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; align-items: end; }
+.promo-grid input, .promo-grid select { width: 100%; padding: 8px 10px; border: 1px solid var(--gray-200); font-size: 13px; font-family: var(--font-body); outline: none; background: var(--cream); }
+.promo-grid input:focus, .promo-grid select:focus { border-color: var(--red); }
+.promo-grid label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-600); margin-bottom: 5px; }
+.autocomplete-wrap { position: relative; }
+.autocomplete-list { position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border: 1px solid var(--gray-200); border-top: none; max-height: 200px; overflow-y: auto; z-index: 50; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.autocomplete-list li { padding: 8px 10px; font-size: 12px; cursor: pointer; list-style: none; border-bottom: 1px solid var(--gray-100); }
+.autocomplete-list li:last-child { border-bottom: none; }
+.autocomplete-list li:hover { background: var(--gray-100); }
+.autocomplete-list li span { color: var(--gray-400); font-size: 11px; }
+
+.promo-list-item { display: flex; align-items: center; justify-content: space-between; background: var(--white); border: 1px solid var(--gray-200); border-left: 4px solid var(--red); padding: 14px 16px; margin-bottom: 8px; gap: 16px; }
+.promo-list-info { flex: 1; min-width: 0; }
+.promo-list-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.promo-list-disc { font-size: 13px; color: var(--red); font-weight: 700; white-space: nowrap; }
+.promo-list-meta { font-size: 11px; color: var(--gray-400); margin-top: 3px; }
+.promo-list-exp { font-size: 11px; color: var(--red); font-family: monospace; margin-top: 2px; }
+.no-promos { text-align: center; padding: 40px; color: var(--gray-400); }
+
 .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--groove); color: var(--white); padding: 12px 20px; font-size: 13px; font-weight: 600; z-index: 999; pointer-events: none; opacity: 0; transition: opacity 0.2s; white-space: nowrap; border-left: 3px solid var(--red); }
 .toast.show { opacity: 1; }
 
@@ -191,6 +258,8 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
   .catalog-wrap { padding: 12px; }
   .filters { padding: 10px 12px; }
   .cart-drawer { width: 100vw; }
+  .offers-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  .promo-grid { grid-template-columns: 1fr 1fr; }
 }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -209,8 +278,24 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
   </div>
 </header>
 
+<!-- PROMO BANNER -->
+<div class="promo-banner" id="promo-banner" onclick="scrollToOffers()">
+  🔥 ¡Hay ofertas activas! — Mirá los descuentos de hoy
+</div>
+
 <!-- CATALOG -->
 <div id="catalog-view">
+
+  <!-- OFFERS SECTION (shown only when promos exist) -->
+  <div class="offers-section" id="offers-section" style="display:none">
+    <div class="offers-header">
+      <div class="offers-title">OFERTAS</div>
+      <div class="offers-badge">TIEMPO LIMITADO</div>
+    </div>
+    <div class="offers-grid" id="offers-grid"></div>
+  </div>
+  <hr class="offers-divider" id="offers-divider" style="display:none">
+
   <div class="filters">
     <div class="search-wrap">
       <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -250,6 +335,7 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
     </div>
     <div class="admin-tabs">
       <button class="a-tab active" onclick="switchTab('cat')">Catálogo</button>
+      <button class="a-tab" onclick="switchTab('promo')">Promociones</button>
       <button class="a-tab" onclick="switchTab('ped')">Pedidos</button>
       <button class="a-tab" onclick="switchTab('cfg')">Configuración</button>
     </div>
@@ -275,6 +361,40 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
         </table>
       </div>
       <div class="adm-pag" id="adm-pag"></div>
+    </div>
+
+    <!-- PROMOS TAB -->
+    <div id="tab-promo" style="display:none">
+      <div class="promo-form">
+        <h3>Crear promoción</h3>
+        <div class="promo-grid">
+          <div>
+            <label>Disco</label>
+            <div class="autocomplete-wrap">
+              <input type="text" id="promo-disk-q" placeholder="Buscar artista o título..." oninput="promoAutocomplete()" autocomplete="off">
+              <ul class="autocomplete-list" id="promo-ac-list" style="display:none"></ul>
+              <input type="hidden" id="promo-disk-id">
+            </div>
+          </div>
+          <div>
+            <label>Tipo de descuento</label>
+            <select id="promo-type" onchange="updatePromoPlaceholder()">
+              <option value="percent">Porcentaje (%)</option>
+              <option value="fixed">Precio fijo ($)</option>
+            </select>
+          </div>
+          <div>
+            <label id="promo-value-label">Descuento (%)</label>
+            <input type="number" id="promo-value" placeholder="Ej: 20" min="1">
+          </div>
+          <div>
+            <label>Vence el</label>
+            <input type="datetime-local" id="promo-expires">
+          </div>
+        </div>
+        <button class="btn-prim" onclick="addPromo()">+ Crear promoción</button>
+      </div>
+      <div id="promo-list-wrap"></div>
     </div>
 
     <div id="tab-ped" style="display:none">
@@ -334,6 +454,8 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
         <div class="modal-meta"><div class="meta-lbl">Sello</div><div class="meta-val" id="m-s2"></div></div>
         <div class="modal-meta"><div class="meta-lbl">Stock disponible</div><div class="meta-val" id="m-stk"></div></div>
       </div>
+      <div class="modal-prc-orig" id="m-price-orig"></div>
+      <div class="modal-prc-label" id="m-price-label"></div>
       <div class="modal-prc" id="m-price"></div>
       <button class="btn-modal-add" id="m-add-btn" onclick="addFromModal()">Agregar al pedido</button>
     </div>
@@ -347,6 +469,7 @@ let CATALOG = [];
 let cart = JSON.parse(localStorage.getItem('vc_cart') || '[]');
 let config = JSON.parse(localStorage.getItem('vc_cfg') || '{"wsp":"5491100000000","name":"VinylStore"}');
 let orders = JSON.parse(localStorage.getItem('vc_orders') || '[]');
+let promos = [];
 let filtered = [];
 let page = 1;
 const PER = 40;
@@ -354,8 +477,141 @@ let modalDisk = null;
 let aPage = 1;
 let aFiltered = [];
 const APER = 50;
+let countdownInterval = null;
+let promoDiskSelected = null;
+
+// ── PROMOS CORE ──────────────────────────────────────────────────────────────
+
+function loadPromos() {
+  const now = Date.now();
+  promos = JSON.parse(localStorage.getItem('vc_promos') || '[]')
+    .filter(p => new Date(p.expiresAt).getTime() > now);
+  savePromos();
+}
+
+function savePromos() {
+  localStorage.setItem('vc_promos', JSON.stringify(promos));
+}
+
+function getActivePromos() {
+  const now = Date.now();
+  return promos.filter(p => new Date(p.expiresAt).getTime() > now);
+}
+
+function getPromo(diskId) {
+  const now = Date.now();
+  return promos.find(p => p.diskId === String(diskId) && new Date(p.expiresAt).getTime() > now) || null;
+}
+
+function calcPromoPrice(disk, promo) {
+  if (!promo) return disk.price;
+  if (promo.type === 'percent') return Math.round(disk.price * (1 - promo.value / 100));
+  if (promo.type === 'fixed') return promo.value;
+  return disk.price;
+}
+
+function fmtCountdown(expiresAt) {
+  const diff = new Date(expiresAt).getTime() - Date.now();
+  if (diff <= 0) return 'Expirada';
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  if (h >= 24) {
+    const d = Math.floor(h / 24);
+    return `${d}d ${h % 24}h ${String(m).padStart(2,'0')}m`;
+  }
+  return `${h}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+}
+
+function startCountdownTick() {
+  if (countdownInterval) clearInterval(countdownInterval);
+  countdownInterval = setInterval(() => {
+    // Remove expired promos silently
+    const before = promos.length;
+    promos = promos.filter(p => new Date(p.expiresAt).getTime() > Date.now());
+    if (promos.length !== before) {
+      savePromos();
+      renderOffersSection();
+      renderPromoBanner();
+      renderGrid();
+    }
+    // Update countdowns in DOM
+    document.querySelectorAll('[data-countdown]').forEach(el => {
+      el.textContent = fmtCountdown(el.dataset.countdown);
+    });
+  }, 1000);
+}
+
+// ── PROMO RENDERS ────────────────────────────────────────────────────────────
+
+function renderPromoBanner() {
+  const active = getActivePromos();
+  const banner = document.getElementById('promo-banner');
+  banner.classList.toggle('visible', active.length > 0);
+  if (active.length === 1) {
+    const d = CATALOG.find(x => String(x.id) === active[0].diskId);
+    const name = d ? `${d.artist} — ${d.title}` : 'un disco';
+    banner.textContent = `🔥 OFERTA: ${name} con descuento. ¡Solo por tiempo limitado!`;
+  } else if (active.length > 1) {
+    banner.textContent = `🔥 ¡${active.length} ofertas activas hoy! — Mirá los descuentos del catálogo`;
+  }
+}
+
+function renderOffersSection() {
+  const active = getActivePromos();
+  const section = document.getElementById('offers-section');
+  const divider = document.getElementById('offers-divider');
+  const grid = document.getElementById('offers-grid');
+
+  if (!active.length) {
+    section.style.display = 'none';
+    divider.style.display = 'none';
+    return;
+  }
+
+  section.style.display = 'block';
+  divider.style.display = 'block';
+  const inCartSet = new Set(cart.map(c => c.id));
+
+  grid.innerHTML = active.map(promo => {
+    const d = CATALOG.find(x => String(x.id) === promo.diskId);
+    if (!d) return '';
+    const promoPrice = calcPromoPrice(d, promo);
+    const discLabel = promo.type === 'percent' ? `-${promo.value}%` : 'PRECIO ESPECIAL';
+    const inCart = inCartSet.has(d.id);
+    return `
+      <div class="offer-card" onclick="openModal('${esc(d.id)}')">
+        <div class="offer-card-img">
+          ${d.img
+            ? `<img src="${esc(d.img)}" alt="${esca(d.artist)}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=card-placeholder><div class=vinyl-disc></div></div>'">`
+            : '<div class="card-placeholder"><div class="vinyl-disc"></div></div>'}
+          <span class="offer-ribbon">${discLabel}</span>
+        </div>
+        <div class="offer-card-body">
+          <div class="offer-artist">${esc(d.artist)}</div>
+          <div class="offer-ttl">${esc(d.title)}</div>
+          <div class="offer-prices">
+            <span class="price-original">${fmt(d.price)}</span>
+            <span class="price-promo">${fmt(promoPrice)}</span>
+          </div>
+          <div class="offer-countdown">⏱ Termina en <strong data-countdown="${esc(promo.expiresAt)}">${fmtCountdown(promo.expiresAt)}</strong></div>
+          <button class="btn-offer-add ${inCart ? 'added' : ''}" onclick="event.stopPropagation();addToCart('${esc(d.id)}')">
+            ${inCart ? '✓ En el carrito' : 'Agregar al pedido'}
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function scrollToOffers() {
+  const el = document.getElementById('offers-section');
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── CATALOG ──────────────────────────────────────────────────────────────────
 
 async function init() {
+  loadPromos();
   try {
     const res = await fetch('catalog.json');
     let data = await res.json();
@@ -370,7 +626,10 @@ async function init() {
   } catch(e) {
     document.getElementById('catalog-grid').innerHTML = '<p style="padding:40px;color:var(--gray-400)">Error cargando el catálogo. Asegurate que catalog.json esté en la misma carpeta.</p>';
   }
+  renderPromoBanner();
+  renderOffersSection();
   updateCartUI();
+  startCountdownTick();
 }
 
 function applyStoreName() {
@@ -413,22 +672,34 @@ function renderGrid() {
   const s = (page - 1) * PER;
   const slice = filtered.slice(s, s + PER);
   const inCartSet = new Set(cart.map(c => c.id));
-  document.getElementById('catalog-grid').innerHTML = slice.map(d => `
-    <div class="vinyl-card" onclick="openModal('${esc(d.id)}')">
-      <div class="card-img">
-        ${d.img ? `<img src="${esc(d.img)}" alt="${esca(d.artist)}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=card-placeholder><div class=vinyl-disc></div></div>'">` : '<div class="card-placeholder"><div class="vinyl-disc"></div></div>'}
-        <span class="label-badge">${esc(d.label)}</span>
-        <span class="stock-badge">Stock: ${esc(d.stock)}</span>
-      </div>
-      <div class="card-info">
-        <div class="card-artist">${esc(d.artist)}</div>
-        <div class="card-title">${esc(d.title)}</div>
-        <div class="card-footer">
-          <span class="card-price">${fmt(d.price)}</span>
-          <button class="btn-add ${inCartSet.has(d.id)?'added':''}" onclick="event.stopPropagation();addToCart('${esc(d.id)}')" title="Agregar">${inCartSet.has(d.id)?'✓':'+'}</button>
+  document.getElementById('catalog-grid').innerHTML = slice.map(d => {
+    const promo = getPromo(d.id);
+    const promoPrice = promo ? calcPromoPrice(d, promo) : null;
+    const discLabel = promo ? (promo.type === 'percent' ? `-${promo.value}%` : 'OFERTA') : null;
+    const priceHtml = promo
+      ? `<div class="card-price-wrap">
+           <span class="card-price-orig">${fmt(d.price)}</span>
+           <span class="card-price-disc">${fmt(promoPrice)}</span>
+         </div>`
+      : `<span class="card-price">${fmt(d.price)}</span>`;
+    return `
+      <div class="vinyl-card" onclick="openModal('${esc(d.id)}')">
+        <div class="card-img">
+          ${d.img ? `<img src="${esc(d.img)}" alt="${esca(d.artist)}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=card-placeholder><div class=vinyl-disc></div></div>'">` : '<div class="card-placeholder"><div class="vinyl-disc"></div></div>'}
+          <span class="label-badge">${esc(d.label)}</span>
+          ${promo ? `<span class="promo-tag">${discLabel}</span>` : ''}
+          <span class="stock-badge">Stock: ${esc(d.stock)}</span>
         </div>
-      </div>
-    </div>`).join('');
+        <div class="card-info">
+          <div class="card-artist">${esc(d.artist)}</div>
+          <div class="card-title">${esc(d.title)}</div>
+          <div class="card-footer">
+            ${priceHtml}
+            <button class="btn-add ${inCartSet.has(d.id)?'added':''}" onclick="event.stopPropagation();addToCart('${esc(d.id)}')" title="Agregar">${inCartSet.has(d.id)?'✓':'+'}</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
   renderPag();
 }
 
@@ -460,7 +731,27 @@ function openModal(id) {
   document.getElementById('m-title').textContent = d.title;
   document.getElementById('m-s2').textContent = d.label;
   document.getElementById('m-stk').textContent = d.stock;
-  document.getElementById('m-price').textContent = fmt(d.price);
+
+  const promo = getPromo(d.id);
+  const origEl = document.getElementById('m-price-orig');
+  const labelEl = document.getElementById('m-price-label');
+  const priceEl = document.getElementById('m-price');
+  if (promo) {
+    const promoPrice = calcPromoPrice(d, promo);
+    const discText = promo.type === 'percent' ? `${promo.value}% de descuento` : 'Precio especial';
+    origEl.textContent = fmt(d.price);
+    origEl.style.display = 'block';
+    labelEl.textContent = `🔥 ${discText} · Termina en: ${fmtCountdown(promo.expiresAt)}`;
+    labelEl.style.display = 'block';
+    priceEl.textContent = fmt(promoPrice);
+    priceEl.style.color = 'var(--red)';
+  } else {
+    origEl.style.display = 'none';
+    labelEl.style.display = 'none';
+    priceEl.textContent = fmt(d.price);
+    priceEl.style.color = '';
+  }
+
   const inCart = cart.some(c => c.id === d.id);
   const btn = document.getElementById('m-add-btn');
   btn.textContent = inCart ? '✓ En el carrito' : 'Agregar al pedido';
@@ -479,12 +770,21 @@ function addFromModal() {
 function addToCart(id) {
   const d = CATALOG.find(x => x.id === id);
   if (!d) return;
+  const promo = getPromo(id);
+  const price = promo ? calcPromoPrice(d, promo) : d.price;
   const ex = cart.find(c => c.id === id);
-  if (ex) { ex.qty++; } else { cart.push({id:d.id,artist:d.artist,title:d.title,price:d.price,img:d.img||null,qty:1}); }
-  saveCart(); updateCartUI(); renderGrid();
+  if (ex) {
+    ex.qty++;
+    ex.price = price;
+    ex.origPrice = promo ? d.price : null;
+    ex.isPromo = !!promo;
+  } else {
+    cart.push({ id: d.id, artist: d.artist, title: d.title, price, origPrice: promo ? d.price : null, isPromo: !!promo, img: d.img || null, qty: 1 });
+  }
+  saveCart(); updateCartUI(); renderGrid(); renderOffersSection();
   showToast(d.artist + ' — ' + d.title + ' agregado');
 }
-function removeFromCart(id) { cart = cart.filter(c => c.id !== id); saveCart(); updateCartUI(); renderGrid(); }
+function removeFromCart(id) { cart = cart.filter(c => c.id !== id); saveCart(); updateCartUI(); renderGrid(); renderOffersSection(); }
 function changeQty(id, delta) {
   const it = cart.find(c => c.id === id);
   if (!it) return;
@@ -508,11 +808,15 @@ function updateCartUI() {
       <div class="cart-item-info">
         <div class="cart-item-artist">${esc(it.artist)}</div>
         <div class="cart-item-title">${esc(it.title)}</div>
+        ${it.isPromo ? `<div class="cart-item-promo-tag">🔥 PRECIO PROMO</div>` : ''}
         <div class="cart-controls">
           <button class="qty-btn" onclick="changeQty('${esc(it.id)}',-1)">−</button>
           <span class="qty-num">${it.qty}</span>
           <button class="qty-btn" onclick="changeQty('${esc(it.id)}',1)">+</button>
-          <span class="item-price">${fmt(it.price * it.qty)}</span>
+          <div style="margin-left:auto;text-align:right">
+            ${it.isPromo && it.origPrice ? `<div class="cart-item-orig-price">${fmt(it.origPrice * it.qty)}</div>` : ''}
+            <div class="item-price">${fmt(it.price * it.qty)}</div>
+          </div>
         </div>
       </div>
       <button class="btn-rm" onclick="removeFromCart('${esc(it.id)}')">✕</button>
@@ -528,7 +832,14 @@ function sendWsp() {
   const total = cart.reduce((s,c) => s + c.price * c.qty, 0);
   let msg = '🎵 *Pedido de vinilos*\n\n';
   cart.forEach(it => {
-    msg += `• *${it.artist}* — ${it.title}\n  ${it.qty > 1 ? `x${it.qty} × ${fmt(it.price)} = ${fmt(it.price * it.qty)}` : fmt(it.price)}\n`;
+    const lineTotal = it.price * it.qty;
+    if (it.isPromo && it.origPrice) {
+      const origTotal = it.origPrice * it.qty;
+      msg += `• *${it.artist}* — ${it.title}\n`;
+      msg += `  ${it.qty > 1 ? `x${it.qty} × ` : ''}~~${fmt(it.origPrice)}~~ → *${fmt(it.price)}*${it.qty > 1 ? ` = ${fmt(lineTotal)}` : ''} 🔥\n`;
+    } else {
+      msg += `• *${it.artist}* — ${it.title}\n  ${it.qty > 1 ? `x${it.qty} × ${fmt(it.price)} = ${fmt(lineTotal)}` : fmt(it.price)}\n`;
+    }
   });
   msg += `\n*TOTAL: ${fmt(total)}*\n\nQuedo a la espera de confirmar disponibilidad y forma de pago. ¡Gracias!`;
   const ord = { id:'ORD-'+Date.now(), date:new Date().toLocaleString('es-AR'), items:[...cart], total };
@@ -539,6 +850,8 @@ function sendWsp() {
   cart = []; saveCart(); updateCartUI(); toggleCart();
   showToast('¡Pedido enviado! Revisá WhatsApp');
 }
+
+// ── ADMIN ─────────────────────────────────────────────────────────────────────
 
 function showAdmin() {
   document.getElementById('catalog-view').style.display = 'none';
@@ -554,12 +867,13 @@ function doLogin() {
   if (p === stored) {
     document.getElementById('admin-login-box').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'block';
-    renderAdminTbl(); renderOrders(); loadCfgForm();
+    renderAdminTbl(); renderOrders(); loadCfgForm(); renderPromoList();
   } else { showToast('Contraseña incorrecta'); }
 }
 function switchTab(t) {
-  ['cat','ped','cfg'].forEach(x => document.getElementById('tab-'+x).style.display = x===t?'block':'none');
-  document.querySelectorAll('.a-tab').forEach((b,i) => b.classList.toggle('active',['cat','ped','cfg'][i]===t));
+  ['cat','promo','ped','cfg'].forEach(x => document.getElementById('tab-'+x).style.display = x===t?'block':'none');
+  document.querySelectorAll('.a-tab').forEach((b,i) => b.classList.toggle('active',['cat','promo','ped','cfg'][i]===t));
+  if (t === 'promo') renderPromoList();
 }
 
 function renderAdminTbl() {
@@ -628,6 +942,116 @@ function addDisk() {
   showToast(artist + ' — ' + title + ' agregado al catálogo');
 }
 
+// ── ADMIN PROMOS ──────────────────────────────────────────────────────────────
+
+function updatePromoPlaceholder() {
+  const type = document.getElementById('promo-type').value;
+  document.getElementById('promo-value-label').textContent = type === 'percent' ? 'Descuento (%)' : 'Precio fijo ($)';
+  document.getElementById('promo-value').placeholder = type === 'percent' ? 'Ej: 20' : 'Ej: 5000';
+}
+
+function promoAutocomplete() {
+  const q = document.getElementById('promo-disk-q').value.toLowerCase().trim();
+  const list = document.getElementById('promo-ac-list');
+  document.getElementById('promo-disk-id').value = '';
+  promoDiskSelected = null;
+  if (q.length < 2) { list.style.display = 'none'; return; }
+  const matches = CATALOG.filter(d =>
+    d.artist.toLowerCase().includes(q) || d.title.toLowerCase().includes(q)
+  ).slice(0, 8);
+  if (!matches.length) { list.style.display = 'none'; return; }
+  list.innerHTML = matches.map(d => `
+    <li onclick="selectPromoDisk('${esc(d.id)}','${esca(d.artist)}','${esca(d.title)}',${d.price})">
+      <strong>${esc(d.artist)}</strong> — ${esc(d.title)} <span>${fmt(d.price)}</span>
+    </li>`).join('');
+  list.style.display = 'block';
+}
+
+function selectPromoDisk(id, artist, title, price) {
+  document.getElementById('promo-disk-q').value = `${artist} — ${title}`;
+  document.getElementById('promo-disk-id').value = id;
+  document.getElementById('promo-ac-list').style.display = 'none';
+  promoDiskSelected = { id, artist, title, price };
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.autocomplete-wrap')) {
+    const list = document.getElementById('promo-ac-list');
+    if (list) list.style.display = 'none';
+  }
+});
+
+function addPromo() {
+  const diskId = document.getElementById('promo-disk-id').value;
+  const type = document.getElementById('promo-type').value;
+  const value = parseFloat(document.getElementById('promo-value').value);
+  const expiresAt = document.getElementById('promo-expires').value;
+
+  if (!diskId) { showToast('Seleccioná un disco de la lista'); return; }
+  if (!value || value <= 0) { showToast('Ingresá un valor de descuento válido'); return; }
+  if (type === 'percent' && value >= 100) { showToast('El porcentaje debe ser menor a 100'); return; }
+  if (!expiresAt) { showToast('Seleccioná una fecha de vencimiento'); return; }
+  if (new Date(expiresAt).getTime() <= Date.now()) { showToast('La fecha debe ser futura'); return; }
+
+  // Remove existing promo for same disk
+  promos = promos.filter(p => p.diskId !== diskId);
+  promos.push({ id: 'pr-' + Date.now(), diskId, type, value, expiresAt: new Date(expiresAt).toISOString() });
+  savePromos();
+
+  // Reset form
+  document.getElementById('promo-disk-q').value = '';
+  document.getElementById('promo-disk-id').value = '';
+  document.getElementById('promo-value').value = '';
+  document.getElementById('promo-expires').value = '';
+  promoDiskSelected = null;
+
+  renderPromoList();
+  renderPromoBanner();
+  renderOffersSection();
+  renderGrid();
+  showToast('Promoción creada');
+}
+
+function deletePromo(id) {
+  promos = promos.filter(p => p.id !== id);
+  savePromos();
+  renderPromoList();
+  renderPromoBanner();
+  renderOffersSection();
+  renderGrid();
+  showToast('Promoción eliminada');
+}
+
+function renderPromoList() {
+  const wrap = document.getElementById('promo-list-wrap');
+  const active = getActivePromos();
+  if (!active.length) {
+    wrap.innerHTML = '<div class="no-promos"><p>No hay promociones activas.<br>Creá una usando el formulario de arriba.</p></div>';
+    return;
+  }
+  wrap.innerHTML = `
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--gray-400);margin-bottom:10px">${active.length} promoción${active.length>1?'es':''} activa${active.length>1?'s':''}</div>
+    ${active.map(p => {
+      const d = CATALOG.find(x => String(x.id) === p.diskId);
+      if (!d) return '';
+      const promoPrice = calcPromoPrice(d, p);
+      const discText = p.type === 'percent' ? `-${p.value}%` : `Precio especial`;
+      const exp = new Date(p.expiresAt).toLocaleString('es-AR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+      return `
+        <div class="promo-list-item">
+          <div class="promo-list-info">
+            <div class="promo-list-name">${esc(d.artist)} — ${esc(d.title)}</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:3px">
+              <span class="promo-list-disc">${discText} · ${fmt(d.price)} → ${fmt(promoPrice)}</span>
+            </div>
+            <div class="promo-list-meta">Vence: ${exp}</div>
+            <div class="promo-list-exp">⏱ <span data-countdown="${esc(p.expiresAt)}">${fmtCountdown(p.expiresAt)}</span></div>
+          </div>
+          <button class="btn-dl" onclick="deletePromo('${esc(p.id)}')">Eliminar</button>
+        </div>`;
+    }).join('')}`;
+}
+
 function renderOrders() {
   const w = document.getElementById('orders-wrap');
   if (!orders.length) { w.innerHTML = '<div class="no-orders"><p>Todavía no hay pedidos registrados.<br>Cuando un cliente finalice su pedido por WhatsApp, aparecerá acá.</p></div>'; return; }
@@ -657,9 +1081,11 @@ function saveConfig() {
   setTimeout(() => document.getElementById('saved-ok').style.display = 'none', 2500);
 }
 
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+
 function fmt(n) { return '$' + Math.round(n).toLocaleString('es-AR'); }
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function esca(s) { return String(s).replace(/"/g,'&quot;'); }
+function esca(s) { return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 let toTm;
 function showToast(msg) {
   const t = document.getElementById('toast');
