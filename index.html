@@ -830,18 +830,34 @@ function toggleCart() {
 function sendWsp() {
   if (!cart.length) { showToast('El carrito está vacío'); return; }
   const total = cart.reduce((s,c) => s + c.price * c.qty, 0);
-  let msg = '🎵 *Pedido de vinilos*\n\n';
-  cart.forEach(it => {
-    const lineTotal = it.price * it.qty;
-    if (it.isPromo && it.origPrice) {
-      const origTotal = it.origPrice * it.qty;
-      msg += `• *${it.artist}* — ${it.title}\n`;
-      msg += `  ${it.qty > 1 ? `x${it.qty} × ` : ''}~~${fmt(it.origPrice)}~~ → *${fmt(it.price)}*${it.qty > 1 ? ` = ${fmt(lineTotal)}` : ''} 🔥\n`;
-    } else {
-      msg += `• *${it.artist}* — ${it.title}\n  ${it.qty > 1 ? `x${it.qty} × ${fmt(it.price)} = ${fmt(lineTotal)}` : fmt(it.price)}\n`;
-    }
+  const totalItems = cart.reduce((s,c) => s + c.qty, 0);
+  const storeName = (config.name || 'VinylStore').toUpperCase();
+  const now = new Date().toLocaleString('es-AR', {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
   });
-  msg += `\n*TOTAL: ${fmt(total)}*\n\nQuedo a la espera de confirmar disponibilidad y forma de pago. ¡Gracias!`;
+  const sep = '━━━━━━━━━━━━━━━━━━━━';
+
+  let msg = `🎵 *NUEVO PEDIDO — ${storeName}*\n${sep}\n📋 *Detalle del pedido:*\n\n`;
+
+  cart.forEach((it, i) => {
+    const lineTotal = it.price * it.qty;
+    msg += `${i + 1}. *${it.artist}* — ${it.title}\n`;
+    if (it.isPromo && it.origPrice) {
+      msg += `   Cantidad: ${it.qty} | Precio: ${fmt(it.price)}${it.qty > 1 ? ` c/u` : ''} ~~${fmt(it.origPrice)}~~ 🔥 OFERTA\n`;
+    } else {
+      msg += `   Cantidad: ${it.qty} | Precio: ${fmt(it.price)}${it.qty > 1 ? ` c/u` : ''}\n`;
+    }
+    msg += '\n';
+  });
+
+  msg += `${sep}\n`;
+  msg += `🛒 *Total de items:* ${totalItems} disco${totalItems !== 1 ? 's' : ''}\n`;
+  msg += `💰 *TOTAL A PAGAR: ${fmt(total)}*\n`;
+  msg += `${sep}\n`;
+  msg += `📅 Pedido generado el ${now}\n\n`;
+  msg += `¡Quedo a la espera para coordinar pago y envío!`;
+
   const ord = { id:'ORD-'+Date.now(), date:new Date().toLocaleString('es-AR'), items:[...cart], total };
   orders.unshift(ord);
   localStorage.setItem('vc_orders', JSON.stringify(orders.slice(0,200)));
