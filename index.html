@@ -294,6 +294,46 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
 .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--groove); color: var(--white); padding: 12px 20px; font-size: 13px; font-weight: 600; z-index: 999; pointer-events: none; opacity: 0; transition: opacity 0.2s; white-space: nowrap; border-left: 3px solid var(--red); }
 .toast.show { opacity: 1; }
 
+/* ── HAMBURGER ── */
+.btn-hamburger {
+  display: none;
+  background: transparent; color: var(--white); border: 1px solid #444;
+  width: 36px; height: 36px; font-size: 20px; line-height: 1;
+  cursor: pointer; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: border-color 0.15s;
+}
+.btn-hamburger:hover { border-color: var(--white); }
+.btn-hamburger.open { border-color: var(--red); color: var(--red); }
+
+.mobile-menu {
+  display: none;
+  position: fixed; top: var(--header-h); left: 0; right: 0;
+  background: var(--groove); border-bottom: 3px solid var(--red);
+  z-index: 99; padding: 6px 0 10px;
+}
+.mobile-menu.open { display: block; }
+.mobile-menu-user {
+  padding: 12px 20px 10px; font-size: 12px; color: var(--gray-400);
+  border-bottom: 1px solid #2e2e2e; margin-bottom: 4px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mobile-menu-item {
+  display: block; width: 100%; text-align: left;
+  padding: 11px 20px; background: none; border: none;
+  color: var(--gray-400); font-size: 13px; font-weight: 600;
+  cursor: pointer; font-family: var(--font-body); letter-spacing: 0.3px;
+  transition: color 0.12s, background 0.12s;
+}
+.mobile-menu-item:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+.mobile-menu-item.red { color: var(--red); }
+.mobile-menu-divider { height: 1px; background: #2e2e2e; margin: 4px 0; }
+
+@media(max-width:768px) {
+  .user-area  { display: none !important; }
+  .btn-admin  { display: none !important; }
+  .btn-hamburger { display: flex; }
+}
+
 @media(max-width:600px) {
   .catalog-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
   .catalog-wrap { padding: 12px; }
@@ -313,7 +353,8 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
     <div class="user-area" id="user-area">
       <button class="btn-ghost" onclick="showAuthModal()">Iniciar sesión</button>
     </div>
-    <button class="btn-ghost" onclick="showAdmin()">⚙ Admin</button>
+    <button class="btn-ghost btn-admin" onclick="showAdmin()">⚙ Admin</button>
+    <button class="btn-hamburger" id="btn-hamburger" onclick="toggleMobileMenu()" aria-label="Menú">≡</button>
     <button class="btn-cart" onclick="toggleCart()">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
       Carrito
@@ -321,6 +362,13 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
     </button>
   </div>
 </header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <div id="mobile-menu-items"></div>
+  <div class="mobile-menu-divider"></div>
+  <button class="mobile-menu-item" onclick="showAdmin();closeMobileMenu()">⚙ Admin</button>
+</div>
 
 <!-- PROMO BANNER -->
 <div class="promo-banner" id="promo-banner" onclick="scrollToOffers()">
@@ -1272,7 +1320,46 @@ function updateUserUI() {
   } else {
     area.innerHTML = `<button class="btn-ghost" onclick="showAuthModal()">Iniciar sesión</button>`;
   }
+  updateMobileMenuItems();
 }
+
+function updateMobileMenuItems() {
+  const items = document.getElementById('mobile-menu-items');
+  if (!items) return;
+  if (currentUser) {
+    const name = currentUser.displayName || currentUser.email.split('@')[0];
+    items.innerHTML = `
+      <div class="mobile-menu-user">Hola, ${esc(name)}</div>
+      <button class="mobile-menu-item" onclick="showMyOrders();closeMobileMenu()">📋 Mis pedidos</button>
+      <button class="mobile-menu-item red" onclick="doSignOut();closeMobileMenu()">Salir</button>`;
+  } else {
+    items.innerHTML = `
+      <button class="mobile-menu-item" onclick="showAuthModal();closeMobileMenu()">Iniciar sesión</button>`;
+  }
+}
+
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const btn  = document.getElementById('btn-hamburger');
+  const isOpen = menu.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+  btn.textContent = isOpen ? '✕' : '≡';
+}
+
+function closeMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const btn  = document.getElementById('btn-hamburger');
+  menu.classList.remove('open');
+  btn.classList.remove('open');
+  btn.textContent = '≡';
+}
+
+// Cerrar menú al tocar fuera
+document.addEventListener('click', e => {
+  if (!e.target.closest('#mobile-menu') && !e.target.closest('#btn-hamburger')) {
+    closeMobileMenu();
+  }
+});
 
 function showAuthModal() {
   switchAuthTab('login');
