@@ -464,7 +464,22 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--bla
 
 <div class="toast" id="toast"></div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
+// ── FIREBASE ──────────────────────────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyCpznDE0-rVeojsD42LHtZh_10-ijafptY",
+  authDomain: "martinvinilos.firebaseapp.com",
+  databaseURL: "https://martinvinilos-default-rtdb.firebaseio.com",
+  projectId: "martinvinilos",
+  storageBucket: "martinvinilos.firebasestorage.app",
+  messagingSenderId: "395263487231",
+  appId: "1:395263487231:web:96db0b0543916ce5b470ca"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
 let CATALOG = [];
 let cart = JSON.parse(localStorage.getItem('vc_cart') || '[]');
 let config = JSON.parse(localStorage.getItem('vc_cfg') || '{"wsp":"5491100000000","name":"VinylStore"}');
@@ -483,14 +498,43 @@ let promoDiskSelected = null;
 // ── PROMOS CORE ──────────────────────────────────────────────────────────────
 
 function loadPromos() {
+  // Carga inicial desde localStorage mientras llega Firebase
   const now = Date.now();
   promos = JSON.parse(localStorage.getItem('vc_promos') || '[]')
     .filter(p => new Date(p.expiresAt).getTime() > now);
-  savePromos();
 }
 
-function savePromos() {
+function savePromosLocal() {
   localStorage.setItem('vc_promos', JSON.stringify(promos));
+}
+
+function setupFirebaseListeners() {
+  // Promos en tiempo real
+  db.ref('/promos').on('value', snap => {
+    const now = Date.now();
+    const val = snap.val();
+    promos = val
+      ? Object.values(val).filter(p => new Date(p.expiresAt).getTime() > now)
+      : [];
+    savePromosLocal();
+    renderPromoBanner();
+    renderOffersSection();
+    renderGrid();
+    const promoTab = document.getElementById('tab-promo');
+    if (promoTab && promoTab.style.display !== 'none') renderPromoList();
+  });
+
+  // Config en tiempo real
+  db.ref('/config').on('value', snap => {
+    const val = snap.val();
+    if (val) {
+      config = { ...config, ...val };
+      localStorage.setItem('vc_cfg', JSON.stringify(config));
+      applyStoreName();
+      const cfgOpen = document.getElementById('tab-cfg');
+      if (cfgOpen && cfgOpen.style.display !== 'none') loadCfgForm();
+    }
+  });
 }
 
 function getActivePromos() {
@@ -612,6 +656,7 @@ function scrollToOffers() {
 
 async function init() {
   loadPromos();
+  setupFirebaseListeners();
   try {
     const res = await fetch('catalog.json');
     let data = await res.json();
@@ -1009,10 +1054,12 @@ function addPromo() {
   if (!expiresAt) { showToast('Seleccioná una fecha de vencimiento'); return; }
   if (new Date(expiresAt).getTime() <= Date.now()) { showToast('La fecha debe ser futura'); return; }
 
-  // Remove existing promo for same disk
-  promos = promos.filter(p => p.diskId !== diskId);
-  promos.push({ id: 'pr-' + Date.now(), diskId, type, value, expiresAt: new Date(expiresAt).toISOString() });
-  savePromos();
+  // Remove existing promo for same disk, then add new one
+  const existing = promos.find(p => p.diskId === diskId);
+  if (existing) db.ref('/promos/' + existing.id).remove();
+  const newPromo = { id: 'pr-' + Date.now(), diskId, type, value, expiresAt: new Date(expiresAt).toISOString() };
+  db.ref('/promos/' + newPromo.id).set(newPromo);
+  // Listener will update promos array and re-render
 
   // Reset form
   document.getElementById('promo-disk-q').value = '';
@@ -1020,21 +1067,13 @@ function addPromo() {
   document.getElementById('promo-value').value = '';
   document.getElementById('promo-expires').value = '';
   promoDiskSelected = null;
-
-  renderPromoList();
-  renderPromoBanner();
-  renderOffersSection();
-  renderGrid();
+  // Listener de Firebase actualizará promos y re-renderizará
   showToast('Promoción creada');
 }
 
 function deletePromo(id) {
-  promos = promos.filter(p => p.id !== id);
-  savePromos();
-  renderPromoList();
-  renderPromoBanner();
-  renderOffersSection();
-  renderGrid();
+  db.ref('/promos/' + id).remove();
+  // Listener will update promos array and re-render
   showToast('Promoción eliminada');
 }
 
@@ -1092,6 +1131,7 @@ function saveConfig() {
   config = { wsp, name };
   localStorage.setItem('vc_cfg', JSON.stringify(config));
   if (pass) localStorage.setItem('vc_pass', pass);
+  db.ref('/config').set({ wsp, name });
   applyStoreName();
   document.getElementById('saved-ok').style.display = 'inline';
   setTimeout(() => document.getElementById('saved-ok').style.display = 'none', 2500);
